@@ -2,6 +2,9 @@ from kivymd.app import MDApp
 from kivy.lang import Builder
 from kivy.factory import Factory
 from menu import ItemWidget
+# from kivy.core.window import Window
+# Window.size = (350, 550)
+
 
 Builder.load_string(
 """
@@ -13,12 +16,12 @@ Builder.load_string(
     NavigationLayout:
         ScreenManager:
             id: screen_manager
-            HomeScreen:
-                id: home_screen
-                name: 'home'
             LoginScreen:
                 id: login_screen
                 name: 'login'
+            HomeScreen:
+                id: home_screen
+                name: 'home'
 
         MDNavigationDrawer:
             id: nav_drawer
