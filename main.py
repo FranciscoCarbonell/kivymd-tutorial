@@ -1,79 +1,28 @@
 from kivymd.app import MDApp
-from kivymd.uix.list import OneLineAvatarIconListItem, MDList
-from kivymd.theming import ThemableBehavior
-
 from kivy.lang import Builder
 from kivy.factory import Factory
-from kivy.uix.boxlayout import BoxLayout
-from kivy.properties import StringProperty, ObjectProperty
-from kivy.uix.screenmanager import Screen
+from menu import ItemWidget
+from kivy.core.window import Window
+Window.size = (350, 550)
+
 
 Builder.load_string(
 """
-
-<ItemWidget>:
-    theme_text_color: "Custom"
-    on_release: self.parent.set_item_selected(self)
-    IconLeftWidget:
-        theme_text_color: "Custom"
-        text_color: root.text_color
-        icon: root.icon
-
-<ContentDrawer>:
-    orientation: "vertical"
-    FloatLayout:
-        size_hint_y: None
-        height: "200dp"
-        BoxLayout:
-            id: box_image
-            size_hint_y: None
-            height: "200dp"
-            x: root.x
-            pos_hint: {"top": 1}
-            
-            FitImage:
-                source: "menu.png"
-        MDLabel:
-            text: "Nombre de la empresa"
-            size_hint_y: None
-            height: self.texture_size[1]
-            x: root.x
-            y: root.height - box_image.height + dp(10)
-            
-    ScrollView:
-        ScrollList:
-            id: scroll_list
+#: import LoginScreen screens.login
+#: import HomeScreen screens.home
+#: import ContentDrawer menu
 
 <RootWidget@Screen>:
     NavigationLayout:
         ScreenManager:
+            id: screen_manager
+            HomeScreen:
+                id: home_screen
+                name: 'home'
             LoginScreen:
                 id: login_screen
-                email: input_email
-                password: input_password
-                MDToolbar:
-                    title: "Aplicacion de ejemplo"
-                    elevation: 10
-                    pos_hint: {"top": 1}
-                    left_action_items: [["menu", lambda x: nav_drawer.set_state("toggle")]]
-                AnchorLayout:
-                    anchor_x: "center"
-                    anchor_y: "center"
-                    BoxLayout:
-                        orientation: "vertical"
-                        size_hint_y: None
-                        size_hint_x: .5
-                        MDTextField:
-                            id: input_email
-                            hint_text: "Email"
-                        MDTextField:
-                            id: input_password
-                            hint_text: "password"
-                        MDRaisedButton:
-                            pos_hint: {"center_x": .5}
-                            text: "ingresar"
-                            on_release: login_screen.login()
-        
+                name: 'login'
+
         MDNavigationDrawer:
             id: nav_drawer
             ContentDrawer:
@@ -81,37 +30,23 @@ Builder.load_string(
 """
 )
 
-class LoginScreen(Screen):
-    email = ObjectProperty()
-    password = ObjectProperty()
 
-    def login(self):
-        print(self.email.text)
-        print(self.password.text)
-
-class ScrollList(ThemableBehavior, MDList):
-    def set_item_selected(self, instance):
-        for item in self.children:
-            if item.text_color == self.theme_cls.primary_color:
-                item.text_color = self.theme_cls.text_color
-                break
-        instance.text_color = self.theme_cls.primary_color
-
-
-class ItemWidget(OneLineAvatarIconListItem):
-    icon = StringProperty()
-
-class ContentDrawer(BoxLayout):
-    pass
 
 
 class ExampleApp(MDApp):
+
+    @property
+    def nav_drawer(self):
+        app = self.get_running_app()
+        return app.root.ids.nav_drawer
+
     def on_start(self):
         items = {
-            "home": "Home",
-            "facebook": "Facebook",
-            "twitter": "Twitter",
-            "git": "Git"
+            "information": "Information",
+            "music-box": "Music",
+            "calendar-account": "Calendar",
+            "help": "Help",
+            "close": "Close"
         }
 
         for icon, text in items.items():
