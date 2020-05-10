@@ -2,9 +2,6 @@ from kivymd.app import MDApp
 from kivy.lang import Builder
 from kivy.factory import Factory
 from menu import ItemWidget
-from kivy.core.window import Window
-Window.size = (350, 550)
-
 
 Builder.load_string(
 """
