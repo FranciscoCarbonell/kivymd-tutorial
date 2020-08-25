@@ -3,6 +3,7 @@ from kivymd.theming import ThemableBehavior
 from kivy.uix.boxlayout import BoxLayout
 from kivy.properties import StringProperty
 from kivy.lang import Builder
+from kivy.app import App
 
 Builder.load_string(
 '''
@@ -10,7 +11,6 @@ Builder.load_string(
 <ItemWidget>:
     theme_text_color: "Custom"
     text_color: app.theme_cls.text_color
-    on_release: self.parent.set_item_selected(self)
     IconLeftWidget:
         theme_text_color: "Custom"
         text_color: root.text_color
@@ -53,7 +53,14 @@ class ScrollList(ThemableBehavior, MDList):
 
 class ItemWidget(OneLineAvatarIconListItem):
     icon = StringProperty()
+    screen = StringProperty()
 
+    def on_release(self):
+        self.parent.set_item_selected(self)
+        app = App.get_running_app()
+        if self.screen:
+            app.root.ids.screen_manager.current = self.screen
+        app.root.ids.nav_drawer.set_state()
 
 class ContentDrawer(BoxLayout):
     pass

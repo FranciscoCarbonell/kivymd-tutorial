@@ -36,34 +36,39 @@ Builder.load_string(
 
 
 class IconItemWidget(TwoLineIconListItem):
-    def __init__(self, text, secondary, icon):
+    name = StringProperty()
+
+    def __init__(self, text, secondary, icon, name):
         self.text = text
         self.icon = icon
         self.secondary_text = secondary
+        self.name = name
         super().__init__()
 
 
 class HomeScreen(Screen):
-    def on_enter(self):
-        Clock.schedule_once(self.on_change)
 
-    def on_change(self, *args):
+    def on_enter(self):
         items = {
             "email": {
                 "text": "Email",
-                "secondary": "company@company.com"
+                "secondary": "company@company.com",
+                "name": 'email_screen'
             },
             "facebook": {
                 "text": "Home",
-                "secondary": "link to facebook"
+                "secondary": "link to facebook",
+                "name": 'facebook_screen'
             },
             "twitter": {
                 "text": "Twitter",
-                "secondary": "link to Twitter"
+                "secondary": "link to Twitter",
+                "name": "twitter_screen"
             },
             "git": {
                 "text": "Git",
-                "secondary": "link to Git"
+                "secondary": "link to Git",
+                "name": "git_screen"
             }
         }
         app = App.get_running_app()
@@ -73,5 +78,6 @@ class HomeScreen(Screen):
                 text=data['text'],
                 secondary=data['secondary'],
                 icon=icon,
+                name=data['name']
             )
             list_items.add_widget(item)

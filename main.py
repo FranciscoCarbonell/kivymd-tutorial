@@ -10,6 +10,7 @@ Builder.load_string(
 """
 #: import LoginScreen screens.login
 #: import HomeScreen screens.home
+#: import InfoScreen screens.info
 #: import ContentDrawer menu
 
 <RootWidget@Screen>:
@@ -22,6 +23,9 @@ Builder.load_string(
             HomeScreen:
                 id: home_screen
                 name: 'home'
+            InfoScreen:
+                name: 'information'
+            
 
         MDNavigationDrawer:
             id: nav_drawer
@@ -30,9 +34,6 @@ Builder.load_string(
 """
 )
 
-
-
-
 class ExampleApp(MDApp):
 
     @property
@@ -40,17 +41,26 @@ class ExampleApp(MDApp):
         app = self.get_running_app()
         return app.root.ids.nav_drawer
 
+    def switch_to(self, screen_name):
+        app = self.get_running_app()
+        app.root.screen_manager.current = screen_name
+
+
     def on_start(self):
         items = {
-            "information": "Information",
-            "music-box": "Music",
-            "calendar-account": "Calendar",
-            "help": "Help",
-            "close": "Close"
+            "home": {
+                "text": "Home",
+                "screen": "home"},
+            "information": {
+                "text":"Information",
+                "screen": "information"},
+            "close": {
+                "text": "Close",
+                "screen": ""}
         }
 
-        for icon, text in items.items():
-            item = ItemWidget(text=text, icon=icon)
+        for icon, data in items.items():
+            item = ItemWidget(text=data['text'], screen=data['screen'], icon=icon)
             self.root.ids.content_drawer.ids.scroll_list.add_widget(
                 item
             )

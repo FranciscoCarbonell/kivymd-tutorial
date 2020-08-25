@@ -1,7 +1,6 @@
 from kivy.lang import Builder
 from kivy.uix.screenmanager import Screen
 from kivy.properties import ObjectProperty
-from kivy.factory import Factory
 from kivy.app import App
 
 
@@ -30,14 +29,12 @@ Builder.load_string(
 '''
 )
 
+
 class LoginScreen(Screen):
     email = ObjectProperty()
     password = ObjectProperty()
 
     def login(self):
-    	print(self.email.text)
-    	if self.email.text == 'admin' and self.password.text == 'admin':
-    		manager = App.get_running_app()
-    		print(manager.root.ids.screen_manager.current)
-    		manager.root.ids.screen_manager.current = 'home'
-    		print(manager.root.ids.screen_manager.current)
+        if self.email.text == 'admin' and self.password.text == 'admin':
+            manager = App.get_running_app()
+            manager.root.ids.screen_manager.current = 'home'
