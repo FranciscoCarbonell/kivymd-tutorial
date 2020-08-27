@@ -13,6 +13,7 @@ Builder.load_string(
 
 <ItemWidget>:
     theme_text_color: "Custom"
+    text_color: app.theme_cls.text_color
     on_release: self.parent.set_item_selected(self)
     IconLeftWidget:
         theme_text_color: "Custom"

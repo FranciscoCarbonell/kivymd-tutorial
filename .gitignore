@@ -1,0 +1,7 @@
+__pycache__
+.idea/
+.buildozer
+bin
+untitled.sublime-project
+untitled.sublime-workspace
+buildozer.spec
