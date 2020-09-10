@@ -12,6 +12,7 @@ Builder.load_string(
 #: import HomeScreen screens.home
 #: import InfoScreen screens.info
 #: import ContentDrawer menu
+#: import UserScreen screens.users
 
 <RootWidget@Screen>:
     NavigationLayout:
@@ -24,9 +25,12 @@ Builder.load_string(
                 id: home_screen
                 name: 'home'
             InfoScreen:
+                id: info_screen
                 name: 'information'
+            UserScreen:
+                id: user_screen
+                name: 'users'
             
-
         MDNavigationDrawer:
             id: nav_drawer
             ContentDrawer:
@@ -45,7 +49,6 @@ class ExampleApp(MDApp):
         app = self.get_running_app()
         app.root.screen_manager.current = screen_name
 
-
     def on_start(self):
         items = {
             "home": {
@@ -54,6 +57,9 @@ class ExampleApp(MDApp):
             "information": {
                 "text":"Information",
                 "screen": "information"},
+            "account-supervisor": {
+                "text": "Users",
+                "screen": "users"},
             "close": {
                 "text": "Close",
                 "screen": ""}
@@ -64,6 +70,7 @@ class ExampleApp(MDApp):
             self.root.ids.content_drawer.ids.scroll_list.add_widget(
                 item
             )
+
     def build(self):
         return Factory.RootWidget()
 

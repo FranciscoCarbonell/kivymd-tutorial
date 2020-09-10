@@ -37,4 +37,4 @@ class LoginScreen(Screen):
     def login(self):
         if self.email.text == 'admin' and self.password.text == 'admin':
             manager = App.get_running_app()
-            manager.root.ids.screen_manager.current = 'home'
+            manager.root.ids.screen_manager.current = 'users'

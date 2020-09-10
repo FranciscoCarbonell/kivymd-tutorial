@@ -3,7 +3,6 @@ from kivy.uix.screenmanager import Screen
 from kivymd.uix.list import TwoLineIconListItem
 from kivy.properties import StringProperty
 from kivy.app import App
-from kivy.clock import Clock
 
 Builder.load_string(
 '''
