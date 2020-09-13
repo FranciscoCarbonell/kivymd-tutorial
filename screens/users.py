@@ -7,20 +7,19 @@ from kivy.clock import Clock
 from kivy.network.urlrequest import UrlRequest
 from kivy.uix.image import AsyncImage
 
+import certifi
+
 Builder.load_string(
 '''
-#:import get_color_from_hex kivy.utils.get_color_from_hex
-#:import colors kivymd.color_definitions.colors
 
 <ItemUser>:
     AsyncImageLeftWidget:
         source: root.source
-        canvas:
-            Color:
-                rgba: get_color_from_hex(colors["Light"]["Background"])
-            Line:
-                width: 4.5
-                rounded_rectangle: [self.x-3, self.y-3, self.width+6, self.height+6, 20]
+        allow_stretch: True
+        keep_ratio: False
+        size_hint: None, None
+        size: [dp(50), root.height - dp(10)]
+        pos_hint: {"center_y": .5}
 
 <UserScreen>:
     AnchorLayout:
@@ -55,7 +54,8 @@ class UserScreen(Screen):
             Clock.schedule_once(self.set_users)
 
     def on_success(self, request, result):
-        for user in result['results']:
+        users = sorted(result['results'], key=lambda x: x['name']['first'])
+        for user in users:
             name = user["name"]["first"]
             item = ItemUser(text=name, source=user['picture']['thumbnail'])
             self.screen.list_user.add_widget(item)
@@ -67,7 +67,9 @@ class UserScreen(Screen):
     def set_users(self,*args):
         UrlRequest(URL,
                    on_success=self.on_success,
-                   on_error=self.on_error)
+                   on_error=self.on_error,
+                   verify=True,
+                   ca_file=certifi.where())
 
     @property
     def screen(self):
